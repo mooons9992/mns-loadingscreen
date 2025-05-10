@@ -1,0 +1,56 @@
+.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNS Loading Screen</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            cursor: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background">
+            <video autoplay muted loop id="bgVideo">
+                <source src="assets/background.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="server-info">
+            <h1>Your Server Name</h1>
+        </div>
+
+        <div class="loading-container">
+            <div class="loading-bar">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="loading-text">
+                <span id="loadingText">Loading...</span>
+                <span id="progressText">0%</span>
+            </div>
+        </div>
+
+        <div class="tips">
+            <p id="tipText">Tip: Complete missions to level up quickly!</p>
+        </div>
+    </div>
+
+    <audio id="bgMusic" autoplay loop>
+        <source src="assets/music.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="volume-control">
+        <button id="muteButton">🎵</button>
+        <div class="volume-slider-container">
+            <input type="range" id="volumeSlider" min="0" max="100" value="30" class="volume-slider">
+        </div>
+    </div>
+
+    <script src="mouse.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
