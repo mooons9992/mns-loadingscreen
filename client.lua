@@ -1,32 +1,52 @@
-local isLoadingScreenActive = true -- Define the variable before using it
+local isLoadingScreenActive = true
 
 -- When the player has fully spawned into the server
 AddEventHandler('playerSpawned', function()
-    if isLoadingScreenActive then
-        -- Close the loading screen when player spawns
-        ShutdownLoadingScreenNui()
-        isLoadingScreenActive = false -- Update the state
+    -- Don't immediately close the loading screen - wait for character selection
+    -- We'll handle this with the QBCore callback below
+end)
+
+-- Create a thread to check when the player is fully loaded with their character
+Citizen.CreateThread(function()
+    -- Wait a moment for everything to initialize
+    Citizen.Wait(1000)
+
+    -- Check if QBCore exists and use its callback for character loaded
+    if GetResourceState('qb-core') == 'started' then
+        -- Wait for QBCore to be loaded
+        while not exports['qb-core'] do
+            Citizen.Wait(100)
+        end
         
-        -- Optional: Print a debug message to confirm loading screen was closed
-        if GetConvarInt('mns_debug', 0) == 1 then
-            print("MNS Loading Screen: Closed after player spawn")
+        -- Listen for when the player has selected a character and is fully loaded
+        RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
+        AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+            if isLoadingScreenActive then
+                -- Wait an extra second for everything to render properly
+                Citizen.Wait(1000) 
+                ShutdownLoadingScreenNui()
+                isLoadingScreenActive = false
+            end
+        end)
+    else
+        -- If QBCore is not found, fall back to a timer-based approach
+        Citizen.Wait(15000) -- Wait 15 seconds for character selection to finish
+        
+        if isLoadingScreenActive then
+            ShutdownLoadingScreenNui()
+            isLoadingScreenActive = false
         end
     end
 end)
 
--- Adding a fallback in case the event doesn't trigger
+-- Safety fallback in case the above methods fail
 Citizen.CreateThread(function()
-    -- Wait 15 seconds after script starts (should be plenty of time to spawn)
-    Citizen.Wait(15000)
+    -- Maximum time to keep loading screen active (30 seconds)
+    Citizen.Wait(30000)
     
-    -- If still active, force close
     if isLoadingScreenActive then
         ShutdownLoadingScreenNui()
         isLoadingScreenActive = false
-        
-        if GetConvarInt('mns_debug', 0) == 1 then
-            print("MNS Loading Screen: Force closed after timeout")
-        end
     end
 end)
 

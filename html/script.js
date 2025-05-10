@@ -10,14 +10,24 @@ let isMuted = false;
 let currentVolume = 0.3;
 
 const tips = [
-  "Tip: Complete missions to level up quickly!",
   "Tip: Press F1 to open the interaction menu",
-  "Tip: F2 opens your inventory",
+  "Tip: TAB opens your inventory",
+  "Tip: I opens your player menu",
+  "Tip: Press ESC to view your map",
+  "Tip: T opens the chat window",
+  "Tip: Press M to view your phone",
+  "Tip: Press L to lock/unlock your vehicle",
+  "Tip: Hold ALT to interact with objects and NPCs",
+  "Tip: Press B for your seatbelt",
+  "Tip: Hold X to put your hands up",
+  "Tip: You can buy vehicles at the car dealership",
+  "Tip: Visit the bank to manage your finances",
+  "Tip: You can store your items in the trunk of your vehicle",
+  "Tip: Visit clothing stores to customize your character",
+  "Tip: Your character needs to eat and drink to stay healthy",
   "Tip: Join our Discord server for more information!",
   "Tip: Follow server rules to avoid getting banned",
   "Tip: Make sure to report any bugs you encounter",
-  "Tip: You can customize your character at the clothing stores",
-  "Tip: Check the map for available activities",
   "Tip: Need help? Ask in the Discord or in-game chat"
 ];
 
