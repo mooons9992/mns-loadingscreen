@@ -57,6 +57,38 @@ function init() {
   });
 }
 
+function copyToClipboard(text) {
+  const el = document.createElement('textarea');
+  el.value = text;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  
+  // Show a small notification that the link was copied
+  const notification = document.createElement('div');
+  notification.textContent = 'Discord link copied to clipboard!';
+  notification.style.position = 'fixed';
+  notification.style.bottom = '70px';
+  notification.style.left = '50%';
+  notification.style.transform = 'translateX(-50%)';
+  notification.style.backgroundColor = 'rgba(0,0,0,0.7)';
+  notification.style.color = 'white';
+  notification.style.padding = '10px 20px';
+  notification.style.borderRadius = '5px';
+  notification.style.zIndex = '1000';
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    notification.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => document.body.removeChild(notification), 500);
+  }, 3000);
+}
+
 function simulateLoading() {
   loadingInterval = setInterval(() => {
     const elapsed = Date.now() - startTime;
